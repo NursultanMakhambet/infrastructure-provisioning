@@ -1,0 +1,5 @@
+# This file is deprecated in favor of inventory/hosts (INI format).
+# Generate the inventory with: ./scripts/generate_inventory.sh
+# Output is written to inventory/hosts and matches k8s-baremetal-platform
+# (https://github.com/NursultanMakhambet/k8s-baremetal-platform) environments/localVM/hosts.
+# Use: ./scripts/generate_inventory.sh --k8s-platform to write directly there.
