@@ -1,3 +1,6 @@
+# Local Terraform binary (use system/tofu or install separately)
+.bin/
+
 # Terraform
 .terraform/
 .terraform.lock.hcl
