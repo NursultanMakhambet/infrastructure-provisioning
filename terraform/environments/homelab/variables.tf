@@ -108,7 +108,7 @@ variable "master_memory" {
 }
 variable "master_disk" {
   type        = number
-  default     = 40
+  default     = 10
   description = "Disk size in GiB for K8s masters"
 }
 variable "worker_cpu" {
@@ -123,7 +123,7 @@ variable "worker_memory" {
 }
 variable "worker_disk" {
   type        = number
-  default     = 40
+  default     = 20
   description = "Disk size in GiB for K8s workers"
 }
 variable "db_cpu" {
@@ -138,7 +138,7 @@ variable "db_memory" {
 }
 variable "db_disk" {
   type        = number
-  default     = 50
+  default     = 20
   description = "Disk size in GiB for DB nodes"
 }
 variable "aux_cpu" {
@@ -153,7 +153,7 @@ variable "aux_memory" {
 }
 variable "aux_disk" {
   type        = number
-  default     = 20
+  default     = 10
   description = "Disk size in GiB for aux node"
 }
 variable "storage_cpu" {
@@ -168,6 +168,6 @@ variable "storage_memory" {
 }
 variable "storage_disk" {
   type        = number
-  default     = 50
+  default     = 20
   description = "Disk size in GiB for storage nodes"
 }

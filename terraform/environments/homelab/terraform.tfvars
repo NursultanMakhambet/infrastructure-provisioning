@@ -27,16 +27,9 @@ ssh_keys = [
   # "ssh-rsa AAAAB3... user@host",
 ]
 
-# Optional: override resource defaults
-# master_cpu = 2
-# master_memory = 4096
-# master_disk = 40
-# worker_cpu = 2
-# worker_memory = 4096
-# worker_disk = 40
-# db_cpu = 2
-# db_memory = 4096
-# db_disk = 50
-# aux_cpu = 1
-# aux_memory = 2048
-# aux_disk = 20
+# Disk sizes
+master_disk  = 10
+worker_disk  = 20
+db_disk      = 20
+storage_disk = 20
+aux_disk     = 10

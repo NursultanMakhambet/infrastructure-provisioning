@@ -12,7 +12,7 @@ locals {
   aux_vms = {
     "aux1" = {
       hostname = "aux1.node.local"
-      vm_id    = 190
+      vm_id    = 501
       ip       = "${local.prefix}.190"
       role     = "aux"
       cpu      = var.aux_cpu
@@ -21,12 +21,12 @@ locals {
     }
   }
 
-  # DB cluster
+  # DB cluster (VM IDs 301+)
   db_vms = {
     for i in range(1, var.db_nodes + 1) :
     "db${i}" => {
       hostname = "db${i}.node.local"
-      vm_id    = 110 + (i - 1)
+      vm_id    = 300 + i
       ip       = "${local.prefix}.${110 + (i - 1)}"
       role     = "db"
       cpu      = var.db_cpu
@@ -35,12 +35,12 @@ locals {
     }
   }
 
-  # Kubernetes masters
+  # Kubernetes masters (VM IDs 101+)
   master_vms = {
     for i in range(1, var.k8s_masters + 1) :
     "master${i}" => {
       hostname = "master${i}.k8s.local"
-      vm_id    = 101 + (i - 1)
+      vm_id    = 100 + i
       ip       = "${local.prefix}.${101 + (i - 1)}"
       role     = "master"
       cpu      = var.master_cpu
@@ -49,12 +49,12 @@ locals {
     }
   }
 
-  # Kubernetes workers
+  # Kubernetes workers (VM IDs 201+)
   worker_vms = {
     for i in range(1, var.k8s_workers + 1) :
     "worker${i}" => {
       hostname = "worker${i}.k8s.local"
-      vm_id    = 201 + (i - 1)
+      vm_id    = 200 + i
       ip       = "${local.prefix}.${201 + (i - 1)}"
       role     = "worker"
       cpu      = var.worker_cpu
@@ -63,12 +63,12 @@ locals {
     }
   }
 
-  # Storage nodes (SeaweedFS etc.; align with k8s-baremetal-platform inventory)
+  # Storage nodes (VM IDs 401+)
   storage_vms = {
     for i in range(1, var.storage_nodes + 1) :
     "stor${i}" => {
       hostname = "stor${i}.node.local"
-      vm_id    = 151 + (i - 1)
+      vm_id    = 400 + i
       ip       = "${local.prefix}.${151 + (i - 1)}"
       role     = "storage"
       cpu      = var.storage_cpu

@@ -1,4 +1,5 @@
-# Cloud-init for this VM is configured in main.tf via the
-# initialization block (ip_config, user_account/SSH keys).
-# For custom cloud-config snippets, you can reference a
-# user_data_file_id here once uploaded to Proxmox.
+# Cloud-init is configured via the `initialization` block in main.tf:
+# - Static IP and gateway via ip_config
+# - User account and SSH keys via user_account
+# For custom cloud-config snippets, upload a snippet to Proxmox and
+# reference it via user_data_file_id in the initialization block.

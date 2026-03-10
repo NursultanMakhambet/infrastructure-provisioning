@@ -1,40 +1,50 @@
-# Proxmox cloned VM from template (bpg/proxmox 0.98+).
-# Uses argument syntax: clone = {}, cpu = {}, memory = {}, disk = {}, network = {}.
-# Cloud-init/IP: configure on template or via Proxmox UI after clone (cloned_vm has no initialization in this provider).
-
-resource "proxmox_virtual_environment_cloned_vm" "this" {
+resource "proxmox_virtual_environment_vm" "this" {
   name        = var.vm_name
+  vm_id       = var.vm_id
   node_name   = var.node_name
   description = "Managed by Terraform - ${var.vm_name}"
+  on_boot     = var.on_boot
+  started     = true
 
-  clone = {
-    source_vm_id    = var.template_id
-    full            = true
-    target_datastore = var.storage
+  clone {
+    vm_id = var.template_id
+    full  = true
   }
 
-  cpu = {
+  cpu {
     cores = var.cores
+    type  = "host"
   }
 
-  memory = {
-    size    = var.memory
-    balloon = 0
+  memory {
+    dedicated = var.memory
+    floating  = 0
   }
 
-  disk = {
-    scsi0 = {
-      size_gb     = var.disk_size
-      datastore_id = var.storage
+  disk {
+    interface    = "scsi0"
+    size         = var.disk_size
+    datastore_id = var.storage
+  }
+
+  network_device {
+    bridge = var.network_bridge
+    model  = "virtio"
+  }
+
+  initialization {
+    datastore_id = var.storage
+
+    ip_config {
+      ipv4 {
+        address = var.ip_address
+        gateway = var.gateway
+      }
+    }
+
+    user_account {
+      username = var.cloud_init_user
+      keys     = var.ssh_keys
     }
   }
-
-  network = {
-    net0 = {
-      bridge = var.network_bridge
-      model  = "virtio"
-    }
-  }
-
-  started = true
 }
