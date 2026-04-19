@@ -8,8 +8,8 @@ locals {
   bridge  = var.network_bridge
   tmpl    = var.template_id
 
-  # Aux node (single)
-  aux_vms = {
+  # Aux node (single) — optional
+  aux_vms = var.aux_enabled ? {
     "aux1" = {
       hostname = "aux1.node.local"
       vm_id    = 501
@@ -19,7 +19,7 @@ locals {
       memory   = var.aux_memory
       disk     = var.aux_disk
     }
-  }
+  } : {}
 
   # DB cluster (VM IDs 301+)
   db_vms = {

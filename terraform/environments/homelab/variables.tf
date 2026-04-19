@@ -52,6 +52,12 @@ variable "storage_nodes" {
   default     = 3
 }
 
+variable "aux_enabled" {
+  type        = bool
+  description = "Provision aux1 (VMID 501) — set false for k8s+db-only homelab"
+  default     = false
+}
+
 # --- Shared VM settings ---
 variable "template_id" {
   type        = number
