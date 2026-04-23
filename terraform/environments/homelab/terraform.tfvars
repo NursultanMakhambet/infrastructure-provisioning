@@ -3,9 +3,9 @@
 #   export TF_VAR_proxmox_token_id="user@pam!terraform"
 #   export TF_VAR_proxmox_token_secret="..."
 
-proxmox_api_url   = "https://192.168.1.2:8006/"
-proxmox_node      = "pve"   # Change to your Proxmox node name (e.g. pve, proxmox)
-proxmox_insecure  = true
+proxmox_api_url  = "https://192.168.1.2:8006/"
+proxmox_node     = "pve" # Change to your Proxmox node name (e.g. pve, proxmox)
+proxmox_insecure = true
 
 # Clone source: rocky9-temp (VM template on Proxmox)
 template_id = 10000
@@ -15,18 +15,23 @@ template_id = 10000
 # proxmox_token_secret = "your-secret"
 
 # Scaling — k8s (3+2) + single DB only
-db_nodes        = 1
-k8s_masters     = 3
-k8s_workers     = 2
-storage_nodes   = 0
-aux_enabled     = false
+db_nodes      = 1
+k8s_masters   = 3
+k8s_workers   = 2
+storage_nodes = 0
+aux_enabled   = false
 
 # Disks on NVMe pool (not local-lvm)
 storage = "NVME_STORAGE_FAST1"
 
+# 2-phase worker2 passthrough rollout:
+# - false => Phase 1 (q35 + ovmf + efi + serial0 console, no hostpci)
+# - true  => Phase 2 (attach GTX 1070 hostpci devices)
+worker2_gpu_enabled = true
+
 # Network
-gateway         = "192.168.1.1"
-network_prefix  = "192.168.1"
+gateway        = "192.168.1.1"
+network_prefix = "192.168.1"
 
 # SSH keys for cloud-init (add your public keys)
 ssh_keys = [

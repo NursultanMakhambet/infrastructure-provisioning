@@ -60,6 +60,27 @@ locals {
       cpu      = var.worker_cpu
       memory   = var.worker_memory
       disk     = var.worker_disk
+
+      machine            = i == 2 ? "q35" : null
+      bios               = i == 2 ? "ovmf" : null
+      enable_efi_disk    = i == 2
+      efi_disk_datastore = i == 2 ? var.storage : null
+      efi_disk_type      = "4m"
+      vga_type           = i == 2 ? "serial0" : null
+      serial_devices     = i == 2 ? ["socket"] : []
+      hostpci_devices = i == 2 && var.worker2_gpu_enabled ? [
+        {
+          device = "hostpci0"
+          id     = "0000:02:00.0"
+          pcie   = true
+          xvga   = false
+        },
+        {
+          device = "hostpci1"
+          id     = "0000:02:00.1"
+          pcie   = true
+        },
+      ] : []
     }
   }
 
@@ -84,17 +105,25 @@ module "proxmox_vm" {
   source   = "../../modules/proxmox_vm"
   for_each = local.all_vms
 
-  vm_name        = each.value.hostname
-  vm_id          = each.value.vm_id
-  node_name      = local.node
-  ip_address     = "${each.value.ip}/24"
-  gateway        = local.gateway
-  cores          = each.value.cpu
-  memory         = each.value.memory
-  disk_size      = each.value.disk
-  template_id    = local.tmpl
-  network_bridge = local.bridge
-  ssh_keys       = var.ssh_keys
-  cloud_init_user = var.cloud_init_user
-  storage        = var.storage
+  vm_name               = each.value.hostname
+  vm_id                 = each.value.vm_id
+  node_name             = local.node
+  ip_address            = "${each.value.ip}/24"
+  gateway               = local.gateway
+  cores                 = each.value.cpu
+  memory                = each.value.memory
+  disk_size             = each.value.disk
+  template_id           = local.tmpl
+  network_bridge        = local.bridge
+  ssh_keys              = var.ssh_keys
+  cloud_init_user       = var.cloud_init_user
+  storage               = var.storage
+  machine               = lookup(each.value, "machine", null)
+  bios                  = lookup(each.value, "bios", null)
+  vga_type              = lookup(each.value, "vga_type", null)
+  serial_devices        = lookup(each.value, "serial_devices", [])
+  enable_efi_disk       = lookup(each.value, "enable_efi_disk", false)
+  efi_disk_datastore_id = lookup(each.value, "efi_disk_datastore", null)
+  efi_disk_type         = lookup(each.value, "efi_disk_type", "4m")
+  hostpci_devices       = lookup(each.value, "hostpci_devices", [])
 }

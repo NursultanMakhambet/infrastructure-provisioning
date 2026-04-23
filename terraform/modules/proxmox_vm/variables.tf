@@ -76,3 +76,56 @@ variable "on_boot" {
   description = "Start VM on host boot"
   default     = true
 }
+
+variable "machine" {
+  type        = string
+  description = "Optional VM machine type (e.g. q35)"
+  default     = null
+}
+
+variable "bios" {
+  type        = string
+  description = "Optional BIOS implementation (e.g. ovmf)"
+  default     = null
+}
+
+variable "vga_type" {
+  type        = string
+  description = "Optional VGA type (e.g. none)"
+  default     = null
+}
+
+variable "serial_devices" {
+  type        = list(string)
+  description = "Optional serial device backends (e.g. [\"socket\"])"
+  default     = []
+}
+
+variable "enable_efi_disk" {
+  type        = bool
+  description = "Whether to attach an EFI disk (required for OVMF)"
+  default     = false
+}
+
+variable "efi_disk_datastore_id" {
+  type        = string
+  description = "Datastore for EFI disk when enabled"
+  default     = null
+}
+
+variable "efi_disk_type" {
+  type        = string
+  description = "EFI disk type (e.g. 4m)"
+  default     = "4m"
+}
+
+variable "hostpci_devices" {
+  type = list(object({
+    device = string
+    id     = string
+    pcie   = optional(bool)
+    xvga   = optional(bool)
+  }))
+  description = "Optional Host PCI passthrough devices"
+  default     = []
+}

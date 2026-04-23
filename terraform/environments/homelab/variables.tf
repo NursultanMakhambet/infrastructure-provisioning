@@ -46,6 +46,12 @@ variable "k8s_workers" {
   default     = 2
 }
 
+variable "worker2_gpu_enabled" {
+  type        = bool
+  description = "Enable GPU passthrough hostpci blocks on worker2 (VMID 202)"
+  default     = false
+}
+
 variable "storage_nodes" {
   type        = number
   description = "Number of storage nodes (SeaweedFS etc.)"
